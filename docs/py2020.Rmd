@@ -63,34 +63,34 @@ knitr::include_graphics("../images/webscraping_book.png")
 knitr::include_graphics("../images/luke_lightsaber_throwaway.gif")
 ```
 
-##  What we realy need to know: 
+##  What We Really Need to Know: 
 * the tools available in `BeautifulSoup` and `requests`
 * what to look for in html code
 * parsing json objects with <code>json</code>
 * rudimentary `pandas` skills
-* `<idea> All you need to know about html is how tags work </idea>`
+* `<pro_tip> All you need to know about html is how tags work </protip>`
 
-## What to Look for in a scraping project:
+## What to Look for in a Scraping Project: {.columns-2}
 
-Structured data with a regular repeatable format. 
-
-```{r, echo=FALSE, out.width = '60%'}
-knitr::include_graphics("../images/rey_repeat.gif")
+```{r, echo=FALSE, out.width = '100%'}
+knitr::include_graphics("../images/spidermen.jpg")
 ```
+
+
+Structured data with a regular repeatable format.
 
 Identical formating is not required, but the more edge cases present, the more complicated the scraping will be. 
 
-## Ethics in Scraping {.columns-2 .smaller}
+## Ethics in Scraping {.columns-2}
 
-```{r, echo=FALSE, out.width = '100%'}
-knitr::include_graphics("../images/heman_power.gif")
+```{r, echo=FALSE, out.width = '80%'}
+knitr::include_graphics("../images/captain_marvel_binary.jpg")
 ```
 
 
 Accessing vast troves of information can be intoxicating.   
    
-   
-(Just because we can doesn't mean we should)
+*Just because we can doesn't mean we should*
 
 ## Legal Considerations 
 (note: I have zero legal training)
@@ -105,11 +105,11 @@ Accessing vast troves of information can be intoxicating.
 
 ## Dollar Stores are Taking Over the World!
 
-```{r, echo=FALSE, fig.cap="Store in Cadcade, Idaho", out.width='60%'}
+```{r, echo=FALSE, fig.cap="Store in Cascade, Idaho", out.width='60%'}
 knitr::include_graphics("../images/family_dollar_cascade_cropped.png")
 ```
 
-<center>**Goal:** Extract all addresses for all Family Dollar stores in Idaho.</center>
+<center>**Goal:** Extract addresses for all Family Dollar stores in Idaho.</center>
 
 ## The Starting Point: 
 
@@ -118,7 +118,7 @@ https://locations.familydollar.com/id/
 knitr::include_graphics("../images/familydollar1.png")
 ```
 
-## Step 1: Load the libraries
+## Step 1: Load the Libraries
 
 ```{python}
 import requests # for making standard html requests
@@ -144,7 +144,7 @@ Beautiful Soup will take html or xml content and transform it into a complex tre
 
 ## Step 3: Determine How to Extract Relevant Content from bs4 Soup
 
-This can be frustrating
+This can be frustrating.
 
 ```{r, echo=FALSE, out.width='70%'}
 knitr::include_graphics("../images/ren_throws_fit.gif")
@@ -166,7 +166,7 @@ knitr::include_graphics("../images/familydollar2.png")
  
 ## Step 3: Finding Content by Searching
 
-Searching for href does not work
+Searching for href does not work.
 ```{python}
 dollar_tree_list = soup.find_all('href')
 dollar_tree_list
@@ -195,7 +195,7 @@ example_content = example.contents
 print(example_content)
 ```
 
-## Step 3: Finding Content in  Attributes
+## Step 3: Finding Content in Attributes
 
 Find out what attributes are present in the contents:
 
@@ -225,7 +225,7 @@ for i in dollar_tree_list:
 for i in city_hrefs[:2]:
   print(i)
 ```
-We now have a list of url's of Family Dollar stores in Idaho to scrape 
+We now have a list of URL's of Family Dollar stores in Idaho to scrape.
 
 ## Repeat Steps 1-4 for the City URLs
 
@@ -240,7 +240,7 @@ knitr::include_graphics("../images/familydollar3.png")
 
 ## Extract Address Information
 
-* from `type="application/ld+json"` 
+from `type="application/ld+json"` 
 
 ```{python}
 arco = soup2.find_all(type="application/ld+json")
@@ -248,7 +248,7 @@ print(arco[1])
 ```
 (address information is in the second list member)
 
-## Use "contents" to Find Address Information 
+## Use 'contents' to Find Address Information 
 
 Extract the contents (from the second list item) and index the first (and only) list item:
 ```{python}
@@ -270,6 +270,8 @@ type(arco_json)
 print(arco_json)
 ```
 
+## Extract Content from a json Object
+
 ```{python, linewidth=70}
 arco_address = arco_json['address']
 arco_address
@@ -277,7 +279,7 @@ arco_address
 
 ## Step 5: Put It All Togther
 
-* iterate Over the List store URLs in Idaho
+Iterate over the list store URLs in Idaho:
 
 ```{python}
 locs_dict = [] # initialise empty list
@@ -314,24 +316,20 @@ df.to_csv(locs_df, "family_dollar_ID_locations.csv", sep = ",", index = False)
 ```
 ## A Few Words on Selenium
 
-"Inspect Element" - provides the code for what we actually see in a browser
+"Inspect Element" provides the code for what we actually see in a browser.
 
 ```{r, echo=FALSE, out.width='100%'}
 knitr::include_graphics("../images/walgreens1.png")
 ```
 
-## A Few Words on Selenium
-
+## A Few Words on Selenium  
 "View Page Source" - provides the code for what `requests` will obtain
-
-```{r, echo=FALSE, out.width='75%'}
+```{r, echo=FALSE, out.width='70%'}
 knitr::include_graphics("../images/walgreens2.png")
 ```
-
 There is javascript modifying the source code. The source code needs to be accessed *after* the page has loaded in a browser. 
 
 ## A Few Words on Selenium
-
 * Requires a webdriver to retrieve the content
 * It actually opens a web browser, and this info is collected
 * Selenium is powerful - it can interact with loaded content in many ways
@@ -345,7 +343,7 @@ soup_ID = BeautifulSoup(driver.page_source, 'html.parser')
 store_link_soup = soup_ID.find_all(class_ = 'col-xl-4 col-lg-4 col-md-4') 
 ```
 
-## The Last Slide {.columns-2 .smaller}
+## The Penultimate Slide {.columns-2}
 
 **Read the Manuals**
 
@@ -354,14 +352,23 @@ store_link_soup = soup_ID.find_all(class_ = 'col-xl-4 col-lg-4 col-md-4')
 
 This talk available at:  
 
-* https://github.com/jpiaskowski/pycas2020_web_scraping
+<font size="4"> https://github.com/jpiaskowski/pycas2020_web_scraping </font >
 
 ```{r, echo=FALSE, fig.cap="Perservere", out.width='80%'}
 knitr::include_graphics("../images/yoda_lightsaber.gif")
 ```
 
-## After We Become Web Scraping Masters:
+##  ~ After We Become Web Scraping Masters ~
 
-```{r, echo=FALSE, out.width='100%'}
+```{r, echo=FALSE,  out.width='100%'}
 knitr::include_graphics("../images/luke_brushesoff_dust.gif")
 ```
+
+https://github.com/jpiaskowski/pycas2020_web_scraping
+
+## Bonus Slide! 
+
+```{r, echo=FALSE, fig.cap = "Dollar Stores in America", out.width='95%'}
+knitr::include_graphics("../images/family_dollar_locations.png")
+```
+
