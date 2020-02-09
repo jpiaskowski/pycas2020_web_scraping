@@ -1,2 +1,3 @@
 library(rmarkdown)
-rmarkdown::render('py2020.Rmd', output_file = 'docs/py2020.html')
+rmarkdown::render('pycas2020_web_scraping.Rmd', output_file = 'docs/pycas2020_web_scraping.html')
+  
