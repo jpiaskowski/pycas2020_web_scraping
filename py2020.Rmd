@@ -50,21 +50,27 @@ virtualenv_create("pycas2020")
 use_virtualenv("pycas2020")
 ```
 
-## Good Way to Learn Python:
+##
+
+https://jpiaskowski.github.io/pycas2020_web_scraping/
+
+## Good Way to Learn Python!
 
 ```{r, echo=FALSE, out.height='40%'}
-knitr::include_graphics("../images/webscraping_book.png")
+knitr::include_graphics("images/webscraping_book.png")
 ```
 
 ## But, Who Actually Reads These A to Z?
 (spoiler: not me)
 
 ```{r, echo=FALSE, fig.cap="me and my programming books", out.width='100%'}
-knitr::include_graphics("../images/luke_lightsaber_throwaway.gif")
+knitr::include_graphics("images/luke_lightsaber_throwaway.gif")
 ```
 
-##  What We Really Need to Know: 
-* the tools available in `BeautifulSoup` and `requests`
+##  The Main Things to Know in a Web Scraping Project: 
+* Is it worth the troube?
+* Is it ethical? 
+* Using `BeautifulSoup` and `requests`
 * what to look for in html code
 * parsing json objects with <code>json</code>
 * rudimentary `pandas` skills
@@ -73,27 +79,25 @@ knitr::include_graphics("../images/luke_lightsaber_throwaway.gif")
 ## What to Look for in a Scraping Project: {.columns-2}
 
 ```{r, echo=FALSE, out.width = '100%'}
-knitr::include_graphics("../images/spidermen.jpg")
+knitr::include_graphics("images/spidermen.jpg")
 ```
 
+* A sizeable amount of structured data with a regular repeatable format. 
 
-Structured data with a regular repeatable format.
-
-Identical formating is not required, but the more edge cases present, the more complicated the scraping will be. 
+* Identical formating is not required, but the more edge cases present, the more complicated the scraping will be. 
 
 ## Ethics in Scraping {.columns-2}
 
-```{r, echo=FALSE, out.width = '80%'}
-knitr::include_graphics("../images/captain_marvel_binary.jpg")
+```{r, echo=FALSE, fig.cap = "Captain Marvel", out.width = '80%'}
+knitr::include_graphics("images/captain_marvel_binary.jpg")
 ```
-
 
 Accessing vast troves of information can be intoxicating.   
    
-*Just because we can doesn't mean we should*
+*Just because it's possible doesn't mean it should be done*
 
 ## Legal Considerations 
-(note: I have zero legal training)
+*(note: I have zero legal training - this is not legal advice!)*
 
 * Are you scraping copyrighted material? 
 * Will your scraping activity compromise individual privacy?
@@ -106,16 +110,16 @@ Accessing vast troves of information can be intoxicating.
 ## Dollar Stores are Taking Over the World!
 
 ```{r, echo=FALSE, fig.cap="Store in Cascade, Idaho", out.width='60%'}
-knitr::include_graphics("../images/family_dollar_cascade_cropped.png")
+knitr::include_graphics("images/family_dollar_cascade_cropped.png")
 ```
 
-<center>**Goal:** Extract addresses for all Family Dollar stores in Idaho.</center>
+**Goal:** Extract addresses for all Family Dollar stores in Idaho.
 
 ## The Starting Point: 
 
 https://locations.familydollar.com/id/
 ```{r, echo=FALSE,out.width='80%'}
-knitr::include_graphics("../images/familydollar1.png")
+knitr::include_graphics("images/familydollar1.png")
 ```
 
 ## Step 1: Load the Libraries
@@ -144,12 +148,10 @@ Beautiful Soup will take html or xml content and transform it into a complex tre
 
 ## Step 3: Determine How to Extract Relevant Content from bs4 Soup
 
-This can be frustrating.
-
+This process can be frustrating. 
 ```{r, echo=FALSE, out.width='70%'}
-knitr::include_graphics("../images/ren_throws_fit.gif")
+knitr::include_graphics("images/ren_throws_fit.gif")
 ```
-
  
 ## Step 3: Finding Content...
 
@@ -159,14 +161,19 @@ knitr::include_graphics("../images/ren_throws_fit.gif")
 ```{python, eval=F, echo=T}
 print(soup.prettify())
 ```
-  * It is usually easiest to browse via "View Page Source":
-```{r, echo=FALSE, out.width='100%'}
-knitr::include_graphics("../images/familydollar2.png")
-```
  
+ 
+## Step 3: Finding Content...
+
+ * It is usually easiest to browse via "View Page Source":
+```{r, echo=FALSE, out.width='100%'}
+knitr::include_graphics("images/familydollar2.png")
+```
+* What attribute or tag sets your content apart from the rest? 
+
 ## Step 3: Finding Content by Searching
 
-Searching for href does not work.
+Searching for 'href' does not work.
 ```{python}
 dollar_tree_list = soup.find_all('href')
 dollar_tree_list
@@ -179,15 +186,14 @@ for i in dollar_tree_list[:2]:
   print(i)
 ```
 
-## Step 3: Finding Content by Using 'contents'
+## Step 3: Finding Target Content by Using 'contents'
 
-What kind of content do we have and how much is there?
 ```{python, collapse=TRUE}
 type(dollar_tree_list)
 len(dollar_tree_list)
 ```
 
-Now that we have drilled down to a BeautifulSoup "ResultSet", we can try extracting the contents.
+Next, extract contents from this BeautifulSoup "ResultSet".
 
 ```{python}
 example = dollar_tree_list[2] # Arco, ID (single representative example)
@@ -225,7 +231,7 @@ for i in dollar_tree_list:
 for i in city_hrefs[:2]:
   print(i)
 ```
-We now have a list of URL's of Family Dollar stores in Idaho to scrape.
+Result: a list of URL's of Family Dollar stores in Idaho to scrape
 
 ## Repeat Steps 1-4 for the City URLs
 
@@ -235,7 +241,7 @@ soup2 = BeautifulSoup(page2.text, 'html.parser')
 ```
 
 ```{r, echo=FALSE, out.width='100%'}
-knitr::include_graphics("../images/familydollar3.png")
+knitr::include_graphics("images/familydollar3.png")
 ```
 
 ## Extract Address Information
@@ -264,7 +270,7 @@ arco_json =  json.loads(arco_contents)
 
 ## Extract Content from a json Object
 
-This is actually a dictionary: 
+A json object is a dictionary: 
 ```{python, linewidth=85}
 type(arco_json)
 print(arco_json)
@@ -277,7 +283,7 @@ arco_address = arco_json['address']
 arco_address
 ```
 
-## Step 5: Put It All Togther
+## Step 5: Put It All Together
 
 Iterate over the list store URLs in Idaho:
 
@@ -308,7 +314,7 @@ locs_df.head(n = 5)
 ## Results!!
 
 ```{r, echo=FALSE, out.width='70%'}
-knitr::include_graphics("../images/adventures_in_babysitting.gif")
+knitr::include_graphics("images/adventures_in_babysitting.gif")
 ```
 
 ```
@@ -316,18 +322,18 @@ df.to_csv(locs_df, "family_dollar_ID_locations.csv", sep = ",", index = False)
 ```
 ## A Few Words on Selenium
 
-"Inspect Element" provides the code for what we actually see in a browser.
+"Inspect Element" provides the code for what is displayed in a browser.
 
 ```{r, echo=FALSE, out.width='100%'}
-knitr::include_graphics("../images/walgreens1.png")
+knitr::include_graphics("images/walgreens1.png")
 ```
 
 ## A Few Words on Selenium  
 "View Page Source" - provides the code for what `requests` will obtain
 ```{r, echo=FALSE, out.width='70%'}
-knitr::include_graphics("../images/walgreens2.png")
+knitr::include_graphics("images/walgreens2.png")
 ```
-There is javascript modifying the source code. The source code needs to be accessed *after* the page has loaded in a browser. 
+There are plugins modifying the source code. The source code needs to be accessed *after* the page has loaded in a browser. 
 
 ## A Few Words on Selenium
 * Requires a webdriver to retrieve the content
@@ -355,20 +361,23 @@ This talk available at:
 <font size="4"> https://github.com/jpiaskowski/pycas2020_web_scraping </font >
 
 ```{r, echo=FALSE, fig.cap="Perservere", out.width='80%'}
-knitr::include_graphics("../images/yoda_lightsaber.gif")
+knitr::include_graphics("images/yoda_lightsaber.gif")
 ```
 
-##  ~ After We Become Web Scraping Masters ~
-
-```{r, echo=FALSE,  out.width='100%'}
-knitr::include_graphics("../images/luke_brushesoff_dust.gif")
-```
+##  ~  After Becoming a Web Scraping Master ~
 
 https://github.com/jpiaskowski/pycas2020_web_scraping
 
-## Bonus Slide! 
+```{r, echo=FALSE,  out.width='100%'}
+knitr::include_graphics("images/luke_brushesoff_dust.gif")
+```
+
+## Bonus Slide!
 
 ```{r, echo=FALSE, fig.cap = "Dollar Stores in America", out.width='95%'}
-knitr::include_graphics("../images/family_dollar_locations.png")
+knitr::include_graphics("images/family_dollar_locations.png")
 ```
+
+
+
 
