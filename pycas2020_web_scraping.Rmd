@@ -19,7 +19,12 @@ ul {
 code {
   color: ##0033cc;
 }
+
+.forceBreak { -webkit-column-break-after: always; break-after: column; }
+
 </style>
+
+
                           
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, error=TRUE, tidy=TRUE)
@@ -52,7 +57,7 @@ use_virtualenv("pycas2020")
 
 ##
 
-https://github.com/jpiaskowski/pycas2020_web_scraping
+### https://github.com/jpiaskowski/pycas2020_web_scraping
 
 ## Good Way to Learn Python!
 
@@ -68,27 +73,28 @@ knitr::include_graphics("images/luke_lightsaber_throwaway.gif")
 ```
 
 ##  The Main Things to Know in a Web Scraping Project: 
-* Is it worth the troube?
+* Is it worth the trouble?
 * Is it ethical? 
-* Using `BeautifulSoup` and `requests`
-* what to look for in html code
-* parsing json objects with <code>json</code>
-* rudimentary `pandas` skills
-* `<pro_tip> All you need to know about html is how tags work </protip>`
+* Tools available in `BeautifulSoup` and `requests`
+* What to look for in html code
+* Parsing json objects with <code>json</code>
+* Rudimentary `pandas` skills
+* `<pro-tip> All you need to know about html is how tags work </pro-tip>`
 
 ## What to Look for in a Scraping Project: {.columns-2}
 
-```{r, echo=FALSE, out.width = '100%'}
+
+* A sizeable amount of structured data with a regular repeatable format.   
+* Identical formating is not required, but the more edge cases present, the more complicated the scraping will be.
+
+
+```{r, echo=FALSE, out.width = '80%'}
 knitr::include_graphics("images/spidermen.jpg")
 ```
 
-* A sizeable amount of structured data with a regular repeatable format. 
-
-* Identical formating is not required, but the more edge cases present, the more complicated the scraping will be. 
-
 ## Ethics in Scraping {.columns-2}
 
-```{r, echo=FALSE, fig.cap = "Captain Marvel", out.width = '80%'}
+```{r, echo=FALSE, out.width = '80%'}
 knitr::include_graphics("images/captain_marvel_binary.jpg")
 ```
 
@@ -148,7 +154,7 @@ Beautiful Soup will take html or xml content and transform it into a complex tre
 
 ## Step 3: Determine How to Extract Relevant Content from bs4 Soup
 
-This process can be frustrating. 
+*This process can be frustrating.*    
 ```{r, echo=FALSE, out.width='70%'}
 knitr::include_graphics("images/ren_throws_fit.gif")
 ```
@@ -317,7 +323,7 @@ locs_df.head(n = 5)
 knitr::include_graphics("images/adventures_in_babysitting.gif")
 ```
 
-```
+```{python, eval=F, echo=T}
 df.to_csv(locs_df, "family_dollar_ID_locations.csv", sep = ",", index = False)
 ```
 ## A Few Words on Selenium
@@ -333,7 +339,8 @@ knitr::include_graphics("images/walgreens1.png")
 ```{r, echo=FALSE, out.width='70%'}
 knitr::include_graphics("images/walgreens2.png")
 ```
-There are plugins modifying the source code. The source code needs to be accessed *after* the page has loaded in a browser. 
+
+There are plugins modifying the source code - so, it should be accessed *after* the page has loaded in a browser. 
 
 ## A Few Words on Selenium
 * Requires a webdriver to retrieve the content
@@ -377,7 +384,4 @@ knitr::include_graphics("images/luke_brushesoff_dust.gif")
 ```{r, echo=FALSE, fig.cap = "Dollar Stores in America", out.width='95%'}
 knitr::include_graphics("images/family_dollar_locations.png")
 ```
-
-
-
 
