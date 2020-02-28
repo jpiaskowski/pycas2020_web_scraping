@@ -5,3 +5,5 @@
 rejects/
 .ipynb_checkpoints
 py2020_files/
+geckodriver.log
+pycas2020_web_scraping_files

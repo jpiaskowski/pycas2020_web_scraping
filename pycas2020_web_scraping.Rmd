@@ -86,6 +86,7 @@ knitr::include_graphics("images/luke_lightsaber_throwaway.gif")
 
 * A sizeable amount of structured data with a regular repeatable format.   
 * Identical formating is not required, but the more edge cases present, the more complicated the scraping will be.
+* no API available
 
 
 ```{r, echo=FALSE, out.width = '80%'}
@@ -151,6 +152,31 @@ Beautiful Soup will take html or xml content and transform it into a complex tre
 * `NavigableString` - string within a tag  
 * `Comment` - special type of NavigableString
 
+## More on 'requests.get' output:
+
+Different output types
+
+* `page.text` for text
+* `page.content` for byte-by-byte output
+* `page.json` for json objects
+* `page.raw` for the raw socket response (no thank you)
+
+
+The encoding for text can be set: 
+
+* `page.encoding = 'ISO-885901'`
+
+
+
+
+## More on Tags
+
+* The bs4 element 'tag' is an html tag
+* it has both a name and attributes (accessed like a dictionary)
+* if a tag has multiple attritutes with the same name, only the first instance is accessed
+* a tag's children is accessed via `[tag].contents`
+* all tag descendenats can be accessed with `[tag].descendants`
+*  you can always access the full contents as a string:* `re.compile("your_string")` instead of navigating the html tree
 
 ## Step 3: Determine How to Extract Relevant Content from bs4 Soup
 
@@ -167,7 +193,7 @@ knitr::include_graphics("images/ren_throws_fit.gif")
 ```{python, eval=F, echo=T}
 print(soup.prettify())
 ```
- 
+
  
 ## Step 3: Finding Content...
 
